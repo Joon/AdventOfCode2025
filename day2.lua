@@ -16,13 +16,11 @@
     return lines
   end
   
-  -- tests the functions above
   local file = 'inputs/day2.txt'
   local lines = lines_from(file)
   
   total_part1 = 0
   total_part2 = 0
-
   
   -- print all line numbers and their contents
   for k,v in string.gmatch(lines[1], "(%w+)-(%w+)") do
