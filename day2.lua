@@ -22,16 +22,18 @@
   total_part1 = 0
   total_part2 = 0
   
-  -- print all line numbers and their contents
+  -- Iterate all number pairs
   for k,v in string.gmatch(lines[1], "(%w+)-(%w+)") do
-    -- print(' ---------- ')
+    -- iterate all numbers in the range
     for i = tonumber(k),tonumber(v) do
       strVal = tostring(i)
-      -- print('strVal: ' .. strVal)
+      -- go through the length of each number as a string
       for l =1,strVal:len() - 1 do
+        -- grab a range of the string (from the start) based on current length
         checkChar = strVal:sub(1, l)
-
+        -- construct a part 1 pattern match - the string portion doubled
         matchPattern_part1 = checkChar .. checkChar
+        -- check if this matches
         if string.match(strVal, '^' .. matchPattern_part1 .. '$') then
             total_part1 = total_part1 + i
             print('MATCH Part 1. Current total: ' .. total_part1 )
@@ -41,18 +43,21 @@
     end
   end
 
-  -- print all line numbers and their contents
+  -- Iterate all number pairs
   for k,v in string.gmatch(lines[1], "(%w+)-(%w+)") do
-    -- print(' ---------- ')
+    -- iterate all numbers in the range
     for i = tonumber(k),tonumber(v) do
       strVal = tostring(i)
-      -- print('strVal: ' .. strVal)
+       -- go through the length of each number as a string
       for l =1,strVal:len() - 1 do
+        -- grab a range of the string (from the start) based on current length
         checkChar = strVal:sub(1, l)
         matchPattern = ''
+        -- duplicate that sub pattern into a match pattern until we reach the length of the string
         while matchPattern:len() < strVal:len() do
             matchPattern = matchPattern .. checkChar
         end
+        -- see if the string matches that pattern
         if string.match(strVal, '^' .. matchPattern .. '$') then
             total_part2 = total_part2 + i
             print('MATCH part 2. Current total: ' .. total_part2 )
