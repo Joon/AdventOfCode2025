@@ -1,2 +1,5 @@
 inputs/
 day3data.db
+*.o
+*.exe
+*.bak
