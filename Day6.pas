@@ -115,7 +115,7 @@ begin
         end;
         totalResult := totalResult + tempResult;
     end;
-    WriteLn('End result: ' + IntToStr(totalResult));
+    WriteLn('Part 1: ' + IntToStr(totalResult));
 end;
 
 function ParsePart2Numbers(lines: array of string): intIntArr;
@@ -184,14 +184,12 @@ var F: TextFile;
     lines: array of string;
     inputsArr: array of array of longInt;
     inputArr: array of longInt;
-    operatorArr: array of char;
-    operatorLine: string;
     currentIndex: integer;
     secondIndex: integer;
     tempResult: Int64;
     totalResult: Int64;
     loadFileName: string;
-    operators: array of string;
+    operators: StringArr;
 begin
     if (testInput) then
     begin
@@ -213,24 +211,29 @@ begin
     end;
 
     inputsArr := ParsePart2Numbers(lines);
-    operators := stringSlots(operatorLine);
+    operators := stringSlots(lines[4]);
+    totalResult := 0;
     for currentIndex := 0 to Length(inputsArr) - 1 do
     begin
-        WriteLn('------');
-        //WriteLn(Length(inputsArr));
-        //WriteLn(Length(inputsArr[currentIndex]));
-        for secondIndex := 0 to Length(inputsArr[currentIndex]) - 1 do
+        tempResult := inputsArr[currentIndex][0];
+        for secondIndex := 1 to Length(inputsArr[currentIndex]) - 1 do
         begin
-            WriteLn(inputsArr[currentIndex][secondIndex]);
+            if operators[currentIndex] = '+' then
+            begin
+                tempResult := tempResult + inputsArr[currentIndex][secondIndex];
+            end else
+            begin
+                tempResult := tempResult * inputsArr[currentIndex][secondIndex];
+            end;
         end;
-        WriteLn('yoop');
-        WriteLn(operators[currentIndex]);
+        totalResult := totalResult + tempResult;
     end;
-
+    Write('Part 2: ');
+    WriteLn(totalResult);
 end;
 
 begin
-   //Part1Processing(False);
+   Part1Processing(False);
    Part2Processing(False);
    Readln();
 end.
