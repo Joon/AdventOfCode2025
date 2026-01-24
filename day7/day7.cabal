@@ -1,0 +1,68 @@
+cabal-version: 2.2
+
+-- This file has been generated from package.yaml by hpack version 0.38.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           day7
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/joon//day7#readme>
+homepage:       https://github.com/joon/AdventOfCode2025#readme
+bug-reports:    https://github.com/joon/AdventOfCode2025/issues
+author:         Joon
+maintainer:     joon.durandt@gmail.com
+copyright:      2025 Joon du Randt
+license:        BSD-3-Clause
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/joon/AdventOfCode2025
+  subdir: day7
+
+library
+  exposed-modules:
+      Day7
+  other-modules:
+      Paths_day7
+  autogen-modules:
+      Paths_day7
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable day7-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_day7
+  autogen-modules:
+      Paths_day7
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , day7
+  default-language: Haskell2010
+
+test-suite day7-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_day7
+  autogen-modules:
+      Paths_day7
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , day7
+    , hspec
+  default-language: Haskell2010
