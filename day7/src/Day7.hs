@@ -6,8 +6,8 @@ module Day7
     , stripChar
     ) where
 
-import Data.List (sort, groupBy, (\\))
-import Data.Function (on)
+import Data.List (sort, nub, (\\))
+import Data.Maybe (mapMaybe)
 import Debug.Trace (trace)
 
 indexLineChars :: (Int, String) -> [(Int, Int, Char)]
@@ -16,25 +16,21 @@ indexLineChars (lineIndex, lineVal) = zip3 [0..] (repeat lineIndex) lineVal
 
 isCollision :: ([(Int, Int)], [(Int, Int)], [(Int, Int)]) -> [(Int, Int)]
 -- Take a list of beams and splitters. Find the locations where the beams
--- strike a splitter. rules to strike a splitter: Splitter Y has to be larger
--- than beam origin Y, Splitter X must be equal to beam X, the collision must
--- not yet be in the list. If there are duplicates, the lowest Y value is the
--- correct one
-isCollision (beams, splitters, existingCollisions) = nubbed
+-- strike a splitter. For each beam, find the first splitter it hits (same X,
+-- lowest Y that's greater than beam Y). Exclude collisions already found.
+isCollision (beams, splitters, existingCollisions) = newCollisions
         where
-                -- First we find all possible collisions from the list
-                plainCollisions = filter (\(splitter_x, splitter_y) ->
-                        any (\(beam_x, beam_y) -> beam_x == splitter_x &&
-                        splitter_y > beam_y) beams) splitters
-                -- Then we sort, ensuring that the Xes are together
-                sortedCollisions = sort plainCollisions
-                -- Subtract any existing collisions from the list
-                cleanedCollisions = sortedCollisions \\ existingCollisions
-                -- Now group by the xes, creating a list of lists of
-                -- tuples that share the same x value, sorted by y value.
-                -- Mapping head on to each of those lists returns the first
-                -- entry, i.e. the lowest Y value for the X value
-                nubbed = map head . groupBy ((==) `on` fst) $ cleanedCollisions
+                -- For each beam, find the first splitter it would hit
+                findFirstCollision (beam_x, beam_y) =
+                        case sort $ filter (\(sx, sy) -> sx == beam_x && sy > beam_y) splitters of
+                                [] -> Nothing
+                                (first:_) -> Just first
+                -- Get first collision for each beam, remove Nothings
+                allFirstCollisions = mapMaybe findFirstCollision beams
+                -- Remove duplicates (multiple beams might hit same splitter)
+                uniqueCollisions = nub allFirstCollisions
+                -- Exclude any existing collisions
+                newCollisions = uniqueCollisions \\ existingCollisions
 
 splitCollisions :: ([(Int, Int)], Int) -> [(Int, Int)]
 splitCollisions (splitters, maxX) = lefts ++ rights
